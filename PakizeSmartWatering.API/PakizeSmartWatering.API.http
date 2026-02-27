@@ -1,0 +1,6 @@
+@PakizeSmartWatering.API_HostAddress = http://localhost:5064
+
+GET {{PakizeSmartWatering.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,13 @@
+# .NET / C# Çöpleri
+bin/
+obj/
+appsettings.Development.json
+*.user
+
+# Frontend / Next.js Çöpleri
+node_modules/
+.next/
+out/
+.env
+.env.local
+.env.*.local
