@@ -17,17 +17,16 @@ export default function WaterAction() {
     setMessage({ text: "", type: null });
 
     try {
-      // API'mize Sulama İsteğini Atıyoruz
+      // API'mize Sulama İsteğini Atıyoruz (PlantId artık dinamik)
       const response = await api.post("/Watering/trigger", {
-        // TODO: Buradaki plantId'yi ileride API'den dinamik çekeceğiz, şimdilik test ID'ni yapıştırabilirsin
-        plantId: "e82174f9-bd63-45cc-b2dc-adaa8d1951c3", 
+        plantId: process.env.NEXT_PUBLIC_PLANT_ID, 
         durationSeconds: duration,
         pinCode: pin
       });
 
       setMessage({ text: "💧 " + response.data.message, type: "success" });
 
-      // YENİ EKLENEN SATIR: Başarılı olunca havaya 'wateringCompleted' adında bir sinyal fişeği atıyoruz!
+      // Başarılı olunca havaya 'wateringCompleted' adında bir sinyal fişeği atıyoruz!
       window.dispatchEvent(new Event("wateringCompleted"));
       
       // Başarılı olursa 2 saniye sonra pencereyi kapat

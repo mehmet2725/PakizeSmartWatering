@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  // Senin .NET API'nin adresi (Test ederken portun 5064'tü, eğer değişirse burayı güncelleriz)
-  baseURL: 'http://localhost:5064/api',
+  // Adresi .env dosyasından çekiyoruz. Eğer bulamazsa yedeği localhost olur.
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5064/api',
   headers: {
     'Content-Type': 'application/json',
   },

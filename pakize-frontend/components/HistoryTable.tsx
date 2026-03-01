@@ -10,16 +10,17 @@ export default function HistoryTable() {
     const [history, setHistory] = useState<WateringHistory[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // TODO: Buradaki plantId'yi de şimdilik API'deki gerçek ID ile sabitliyoruz
-    const plantId = "e82174f9-bd63-45cc-b2dc-adaa8d1951c3";
+    // Gerçek ID'yi çevre değişkeninden alıyoruz
+    const plantId = process.env.NEXT_PUBLIC_PLANT_ID;
 
-    // Sayfa yüklendiğinde ve yeni sulama yapıldığında geçmişi API'den çek
     useEffect(() => {
         const fetchHistory = async () => {
+            if (!plantId) return; // ID henüz yüklenmediyse bekle
+            
             try {
                 const response = await api.get(`/Watering/history/${plantId}`);
 
-                // 1. ÇÖZÜM: Gelen veriyi tarihe göre en yeniden en eskiye sıralıyoruz
+                // Gelen veriyi tarihe göre en yeniden en eskiye sıralıyoruz
                 const sortedData = response.data.sort((a: WateringHistory, b: WateringHistory) =>
                     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
@@ -42,7 +43,7 @@ export default function HistoryTable() {
         return () => {
             window.removeEventListener("wateringCompleted", fetchHistory);
         };
-    }, []);
+    }, [plantId]);
 
     return (
         <motion.div
