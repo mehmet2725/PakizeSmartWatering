@@ -9,11 +9,15 @@ import HistoryTable from "@/components/HistoryTable";
 export default function Home() {
   const [moisture, setMoisture] = useState<number>(0);
 
+  // page.tsx içindeki fetch fonksiyonu
   const fetchMoisture = async () => {
     try {
-      const deviceId = process.env.NEXT_PUBLIC_DEVICE_ID;
-      const response = await api.get(`/Moisture/last/${deviceId}`);
-      
+      // .env.local'deki PLANT_ID'yi kullanıyoruz (DeviceId değil!)
+      const plantId = process.env.NEXT_PUBLIC_PLANT_ID;
+
+      // API isteğini yeni rotaya göre atıyoruz
+      const response = await api.get(`/Moisture/last/${plantId}`);
+
       if (response.data) {
         setMoisture(response.data.moisturePercentage);
       }
@@ -32,7 +36,7 @@ export default function Home() {
     <main className="min-h-screen bg-neutral-950 text-white py-12 px-6">
       {/* Tüm içeriği sınırlayan merkezi kapsayıcı */}
       <div className="max-w-4xl mx-auto flex flex-col items-center">
-        
+
         {/* Header Bölümü */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
@@ -57,14 +61,14 @@ export default function Home() {
         {/* Alt Kısım: Tablo (Tam Genişlik) */}
         <div className="w-full mt-16">
           <div className="flex items-center mb-6">
-             <div className="w-1 h-6 bg-emerald-500 rounded-full mr-3" />
-             <h3 className="text-xl font-semibold">Son Ölçümler</h3>
+            <div className="w-1 h-6 bg-emerald-500 rounded-full mr-3" />
+            <h3 className="text-xl font-semibold">Son Ölçümler</h3>
           </div>
           <div className="bg-neutral-900/50 rounded-xl p-4 border border-white/5">
             <HistoryTable />
           </div>
         </div>
-        
+
       </div>
     </main>
   );
