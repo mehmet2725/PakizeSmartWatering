@@ -33,12 +33,19 @@ builder.Services.AddScoped<IWateringService, WateringService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); // Yeni nesil Swagger alternatifi
 
-// Frontend'in (Next.js) API'ye erişebilmesi için CORS izni veriyoruz
+// ==========================================================
+//  CORS İZNİ: VERCEL İÇİN GÜNCELLENDİ
+// ==========================================================
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowNextjs", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Vercel'e atınca buraya Vercel linkini de ekleyeceğiz
+        // VIP Listesi: Localhost, Vercel Linki ve Kendi Özel Alan Adımız!
+        policy.WithOrigins(
+                "http://localhost:3000", 
+                "https://pakize-smart-watering.vercel.app", 
+                "https://pakize.mehmetsonmez.tr"
+              ) 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
